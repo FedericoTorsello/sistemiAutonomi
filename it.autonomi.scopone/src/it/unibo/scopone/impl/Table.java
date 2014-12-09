@@ -24,7 +24,10 @@ public class Table implements ITable {
 		return cardsOnTable;
 	}
 	
-	
+	@Override
+	public void setCardsOnTable(List<ICard> birthCard) {
+		cardsOnTable = birthCard;
+	}
 
 	@Override
 	public boolean action(ICard card, List<ICard> presa) {

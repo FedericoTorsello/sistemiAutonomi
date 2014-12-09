@@ -3,6 +3,12 @@ package it.unibo.scopone.interfaces;
 import java.util.List;
 
 public interface ITable{
+	/**
+	 * Usata per impostare le carte sul tavolo 
+	 * ad inizio partita.
+	 * @param birthCard = carte ad inizio partita
+	 */
+	public void setCardsOnTable(List<ICard> birthCard);
 	public List<ICard> cardsOnTable(); 
 	/**
 	 * Esegue la mossa specificata dall'agente, 

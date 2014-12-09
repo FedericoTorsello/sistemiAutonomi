@@ -61,7 +61,7 @@ public class BasicPlayer implements IPlayerAgent{
 	@Override
 	public void notifyYourTurn() {
 		//Starts thinking and do stuff
-		
+		log("E' il mio turno!");
 	}
 	
 	private void log(String text){

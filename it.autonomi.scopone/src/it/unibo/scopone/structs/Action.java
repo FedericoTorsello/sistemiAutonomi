@@ -27,4 +27,5 @@ public class Action {
 		String rep = "action("+player.getName()+", "+playedCard.getCardStr()+", (...)";
 		return rep;
 	}
+	
 }
