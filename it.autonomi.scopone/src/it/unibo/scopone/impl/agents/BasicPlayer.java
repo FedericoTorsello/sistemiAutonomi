@@ -62,6 +62,12 @@ public class BasicPlayer implements IPlayerAgent{
 	public void notifyYourTurn() {
 		//Starts thinking and do stuff
 		log("E' il mio turno!");
+		deliberate();
+		if(intendedAction != null){
+			
+		}
+		else
+			log("deliberation() non ha restituito nessuna azione");
 	}
 	
 	private void log(String text){
