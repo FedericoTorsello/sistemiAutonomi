@@ -19,7 +19,7 @@ public interface IPlayerAgent {
 	/**
 	 * Gli e' comunicato l'inizio del proprio turno
 	 */
-	public void notifyYourTurn();
+	public void notifyStartTurn();
 
 	/**
 	 * Processo deliberativo che porta l'agente a prendere una decisione in base
@@ -30,10 +30,8 @@ public interface IPlayerAgent {
 	/**
 	 * Gioca la carta scelta
 	 * 
-	 * @param card
-	 *            = carta da giocare
-	 * @param taking
-	 *            = presa che si intende effettuare, lista vuota se non si
+	 * @param card = carta da giocare
+	 * @param taking = presa che si intende effettuare, lista vuota se non si
 	 *            prende nulla dal tavolo.
 	 */
 	void playCard(ICard card, List<ICard> taking);

@@ -6,7 +6,6 @@ import utils.Lists;
 import it.unibo.scopone.interfaces.*;
 
 public class Rules {
-
 	
 	/**
 	 * se butto una carta e lo stesso valore e' sul tavolo, la devo prendere.

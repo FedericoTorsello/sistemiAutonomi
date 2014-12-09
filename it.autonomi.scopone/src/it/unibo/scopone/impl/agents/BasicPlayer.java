@@ -55,11 +55,12 @@ public class BasicPlayer implements IPlayerAgent {
 
 	@Override
 	public void endTurn() {
-		nextAgent.notifyYourTurn();
+		log("E' il tuo turno!");
+		nextAgent.notifyStartTurn();
 	}
 
 	@Override
-	public void notifyYourTurn() {
+	public void notifyStartTurn() {
 		// Starts thinking and do stuff
 		log("E' il mio turno!");
 		deliberate();

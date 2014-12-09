@@ -34,12 +34,12 @@ public class Table implements ITable {
 	}
 
 	@Override
-	public boolean action(ICard card, List<ICard> presa) {
-		if (Rules.azionePossibile(card, cardsOnTable, presa)) {
+	public boolean action(ICard card, List<ICard> taking) {
+		if (Rules.azionePossibile(card, cardsOnTable, taking)) {
 			cardsOnTable.add(card);
-			if (presa.size() != 0) {
+			if (taking.size() != 0) {
 				// Presa effettuata, raccolgono carte dal tavolo
-				cardsOnTable.removeAll(presa);
+				cardsOnTable.removeAll(taking);
 			}
 			return true;
 		} else
