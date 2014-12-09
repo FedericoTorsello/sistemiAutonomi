@@ -7,20 +7,24 @@ public class Card implements ICard {
 
 	int number;
 	Seed seed;
-	
-	public Card(int number, Seed seed){
+
+	public Card(int number, Seed seed) {
 		this.number = number;
 		this.seed = seed;
 	}
-	
+
 	@Override
 	public String getCardStr() {
-		String str = "card(" + number + "," + seed + ")" ;
+		String str = "card(" + number + "," + seed + ")";
 		return str;
-	}@Override
+	}
+
+	@Override
 	public int getNumber() {
 		return number;
-	}@Override
+	}
+
+	@Override
 	public Seed getSeed() {
 		return seed;
 	}

@@ -9,7 +9,7 @@ public class Rules {
 
 	
 	/**
-	 * se butto una carta e lo stesso valore è sul tavolo, la devo prendere.
+	 * se butto una carta e lo stesso valore e' sul tavolo, la devo prendere.
 	 * altrimenti raccolgo con la somma
 	 * @param card = carta giocata
 	 * @param tableCards = carte sul tavolo
@@ -21,7 +21,7 @@ public class Rules {
 		{
 			boolean esistePresa = existPresa(card, tableCards);
 			if(esistePresa){
-				log("Non puoi usare la carta " + card.getCardStr() + ", una presa è possibile.");
+				log("Non puoi usare la carta " + card.getCardStr() + ", una presa e' possibile.");
 				return false;
 			}
 		}
@@ -41,7 +41,7 @@ public class Rules {
 	 * esiste una presa
 	 * @param card
 	 * @param tableCards
-	 * @return true se la mossa è possibile
+	 * @return true se la mossa ï¿½ possibile
 	 */
 	public static boolean existPresa(ICard card, List<ICard> tableCards){
 		for(ICard c : tableCards)
@@ -58,7 +58,7 @@ public class Rules {
 	 * @param card
 	 * @param tableCards
 	 * @param presa
-	 * @return true se è possibile fare la presa richiesta
+	 * @return true se ï¿½ possibile fare la presa richiesta
 	 */
 	public static boolean presaPossibile(ICard card, List<ICard> tableCards, List<ICard> presa)
 	{
@@ -73,7 +73,7 @@ public class Rules {
 						equalsPresa = false;
 				}
 			if(equalsPresa)
-				return true; //la presa è tra quelle possibili
+				return true; //la presa ï¿½ tra quelle possibili
 		}
 		return false;
 	}

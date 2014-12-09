@@ -9,27 +9,27 @@ import it.unibo.scopone.interfaces.IPlayerAgent;
 import it.unibo.scopone.interfaces.ITable;
 import it.unibo.scopone.structs.Action;
 
-public class BasicPlayer implements IPlayerAgent{
-	
+public class BasicPlayer implements IPlayerAgent {
+
 	String name;
 	IPlayerAgent nextAgent;
 	List<ICard> cardsOnHand;
-	ITable table; //Riferimento al tavolo di gioco
-	List<ICard> deck; //mazzetto
+	ITable table; // Riferimento al tavolo di gioco
+	List<ICard> deck; // mazzetto
 	Action intendedAction = null;
-	
+
 	public BasicPlayer(String name, IPlayerAgent nextAgent) {
 		this.name = name;
 		this.nextAgent = nextAgent;
 		init();
 	}
-	
+
 	@Override
 	public String getName() {
 		return name;
 	}
-	
-	private void init(){
+
+	private void init() {
 		deck = new ArrayList<ICard>();
 		table = Table.getInstance();
 	}
@@ -38,40 +38,39 @@ public class BasicPlayer implements IPlayerAgent{
 	public void setCardsOnHand(List<ICard> cards) {
 		this.cardsOnHand = cards;
 	}
-	
+
 	@Override
 	public void deliberate() {
-		//Processo deliberativo
+		// Processo deliberativo
 	}
-	
+
 	@Override
 	public void playCard(ICard card, List<ICard> taking) {
-		if(table.action(card, taking)){
+		if (table.action(card, taking)) {
 			log("Giocata la carta " + card.getCardStr());
-		}else{
+		} else {
 			log("Impossibile giocare la carta");
 		}
 	}
-	
+
 	@Override
 	public void endTurn() {
 		nextAgent.notifyYourTurn();
 	}
-	
+
 	@Override
 	public void notifyYourTurn() {
-		//Starts thinking and do stuff
+		// Starts thinking and do stuff
 		log("E' il mio turno!");
 		deliberate();
-		if(intendedAction != null){
-			
-		}
-		else
+		if (intendedAction != null) {
+
+		} else
 			log("deliberation() non ha restituito nessuna azione");
 	}
-	
-	private void log(String text){
-		System.out.println(name+"] " + text);
+
+	private void log(String text) {
+		System.out.println(name + "] " + text);
 	}
-	
+
 }
