@@ -17,12 +17,12 @@ public interface IPlayerAgent {
 	public void setCardsOnHand(List<ICard> cards);
 
 	/**
-	 * Gli � comunicato l'inizio del proprio turno
+	 * Gli e' comunicato l'inizio del proprio turno
 	 */
 	public void notifyYourTurn();
 
 	/**
-	 * Processo deliberativo che porta l�agente a prendere una decisione in base
+	 * Processo deliberativo che porta l'agente a prendere una decisione in base
 	 * al contesto
 	 */
 	void deliberate();
