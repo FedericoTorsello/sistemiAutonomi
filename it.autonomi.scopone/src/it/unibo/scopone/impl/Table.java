@@ -7,13 +7,24 @@ import it.unibo.scopone.interfaces.ITable;
 import it.unibo.scopone.structs.Rules;
 
 public class Table implements ITable {
-
+	//Vediamolo come ambiente, implementiamo con un singleton
+	static ITable table = null;
+	public Table() {}
+	public static synchronized ITable getInstance(){
+		if(table == null)
+			table = new Table();
+		return table;
+	}
+	//
+	
 	List<ICard> cardsOnTable;
 	
 	@Override
 	public List<ICard> cardsOnTable() {
 		return cardsOnTable;
 	}
+	
+	
 
 	@Override
 	public boolean action(ICard card, List<ICard> presa) {
