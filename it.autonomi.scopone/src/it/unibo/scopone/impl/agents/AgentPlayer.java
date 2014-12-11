@@ -2,18 +2,22 @@ package it.unibo.scopone.impl.agents;
 
 import java.util.List;
 
+import utils.BasicMaths;
+import utils.logging.ILogger;
 import it.unibo.scopone.interfaces.ICard;
 import it.unibo.scopone.interfaces.IPlayerAgent;
 import it.unibo.scopone.structs.Rules;
 import it.unibo.scopone.structs.Seed;
 
-public class AgentPlayer extends BasicPlayer {
+public class AgentPlayer extends BasicPlayer implements ILogger {
 
 	/*
 	 * String name; IPlayerAgent nextAgent; List<ICard> cardsOnHand; ITable
 	 * table; // Riferimento al tavolo di gioco List<ICard> deck; // mazzetto
 	 */
-
+	
+	LogLevel verbosity = LogLevel.ALL;
+	
 	public AgentPlayer(String name) {
 		super(name);
 	}
@@ -25,49 +29,67 @@ public class AgentPlayer extends BasicPlayer {
 	/**
 	 * Sceglie una carta in maniera non deterministica a seguito di ragionamenti
 	 * fatti in base a degli obbiettivi che gli permettono di guadagnare punti.
-	 * Ragionamenti: Scopa Sette bello Denari Carte Primiera Una carta con un
-	 * maggior coefficiente di fiducia ha maggiore possibilit� di essere
+	 * Ragionamenti:
+	 * 	Scopa
+	 * 	Sette bello
+	 * 	Denari
+	 *	Carte
+	 * 	Primiera
+	 * Una carta con un maggior coefficiente di fiducia ha maggiore possibilità di essere
 	 * giocata.
 	 **/
 	@Override
 	void deliberate() {
-		float[] trustArray = evaluateCardTrust();
+		double[] trustArray = evaluateCardTrust();
+		
+	}
+	
+	ICard getCartWithProbability(double[] trustArray)
+	{
+		ICard card = null;
+		//normalizzo il trust array con double da 0.0 a 1.0
+		double[] probArray = BasicMaths.normalizeArray(trustArray, 1.0);
+		
+		return card;
 	}
 
 	/**
 	 * Valuta la fiducia nella scelta di una determinata carta.
-	 * 
 	 * @return
 	 */
-	private float[] evaluateCardTrust() {
-		float[] trustArray = new float[cardsOnHand.size()];
-		for (int i = 0; i < trustArray.length; i++) {
-			// per ogni carta ragiono
-			float trust = 0.0f;
-
+	private double[] evaluateCardTrust() {
+		double[] trustArray = new double[cardsOnHand.size()];
+		for(int i = 0; i < trustArray.length; i++){
+			//per ogni carta ragiono
+			double trust = 0.0f;
+			ICard card = cardsOnHand.get(i);
+			trust+= setteBello(card);
+			trust+= carte(card);
+			trust+= primiera(card);
+			trust+= denari(card);
+			trust+= scopa(card);
+			trustArray[i] = trust;
 		}
 		return trustArray;
 	}
-
-	// Ragionamenti
-
-	private float setteBello(ICard card) {
-		// La carta che esamino � il sette bello
-		if (Rules.isSetteBello(card)) {
-			if (Rules.existPresa(card, table.cardsOnTable()))
-				;
-			return 1.0f;
+	
+	//////////////////////////////////////////////////////
+	//Ragionamenti
+	
+	private double setteBello(ICard card){
+		//La carta che esamino è il sette bello
+		if(Rules.isSetteBello(card)){
+			if(Rules.existPresa(card, table.cardsOnTable()));
+				return 1.0f;
 		}
-		for (ICard tcard : table.cardsOnTable()) {
-			// Il settebello � tra le carte in gioco (sul tavolo)
-			if (Rules.isSetteBello(tcard)) {
-				List<List<ICard>> prese = Rules.getPrese(card,
-						table.cardsOnTable());
-				for (List<ICard> presa : prese) {
-					// Se almeno una presa contiene il sette bello allora ho pi�
-					// fiducia
-					for (ICard cp : presa) {
-						if (Rules.isSetteBello(cp))
+		for(ICard tcard : table.cardsOnTable()){
+			//Il settebello è tra le carte in gioco (sul tavolo)
+			if(Rules.isSetteBello(tcard)){
+				List<List<ICard>> prese = Rules.getPrese(card, table.cardsOnTable());
+				for(List<ICard> presa : prese){
+					//Se almeno una presa contiene il sette bello allora ho più fiducia
+					for(ICard cp : presa){
+						if(Rules.isSetteBello(cp))
 							return 1.0f;
 					}
 				}
@@ -75,12 +97,12 @@ public class AgentPlayer extends BasicPlayer {
 		}
 		return 0.0f;
 	}
-
-	private float scopa(ICard card) {
-
+	
+	private double scopa(ICard card){
+		
 		return 0.0f;
 	}
-
+	
 	private float primiera(ICard card) {
 		if (card.getNumber() == 7) {
 			if (Rules.existPresa(card, table.cardsOnTable())) {
@@ -153,10 +175,27 @@ public class AgentPlayer extends BasicPlayer {
 		}
 		return 0.0f;
 	}
-
-	private void printTrustForCard(ICard card, float[] trustArray) {
-		String pstr = "";
-		for (int i = 0; i < trustArray.length; i++)
-			log("");
+	
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	private void printTrustForCard(ICard card, double[] trustArray)
+	{
+		String pstr = "trustArray[";
+		double sum = 0.0;
+		for(int i = 0; i < trustArray.length; i++){
+			pstr+=trustArray[i]+" ";
+			sum+=trustArray[i];
+		}
+		pstr += "] = " + sum;
+		log("Valore di trust per carta: " + card.getCardStr() + "\n\t" + pstr , LogLevel.SPECIFIC);
+	}
+	
+	protected void log(String text, LogLevel logLevel) {
+		if(verbosity == LogLevel.ALL || logLevel == LogLevel.ERROR)
+			super.log(text);
+		else{
+			if(logLevel == verbosity)
+				super.log(text);
+		}
 	}
 }
