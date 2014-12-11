@@ -80,8 +80,12 @@ public class BasicPlayer implements IPlayerAgent {
 		if (table.action(card, taking)) {
 			log("Giocata la carta " + card.getCardStr());
 			cardsOnHand.remove(card); // rimuove la carta dalla mano
-			if (taking.size() != 0)
+			if (taking.size() != 0){
 				personalDeck.addAll(taking); // Aggiungo le carte al mazzetto
+				log("Presa: " + cardsListStr(taking));
+				}
+			if(table.cardsOnTable().size() == 0)
+				scopeCount++; //Ho eseguito una scopa;
 		} else {
 			log("Impossibile giocare la carta " + card.getCardStr());
 			throw new IllegalStateException("L'agente " + getName()
@@ -105,12 +109,20 @@ public class BasicPlayer implements IPlayerAgent {
 	}
 	
 	public void stampaCarteInMano(){
-		String str = "";
-		for (int i = 0; i < cardsOnHand.size(); i++) {
-			str+=cardsOnHand.get(i).getCardStr() + " ";
+		if(cardsOnHand.size() > 0){
+			String str = cardsListStr(cardsOnHand);
+			log("Carte in mano: \n" + str +"\n---");
 		}
-		log("Carte in mano: \n" + str +"\n---");
 	}
+	
+	private String cardsListStr(List<ICard> list)
+	{
+		String str = "";
+		for (int i = 0; i < list.size(); i++) {
+			str+=list.get(i).getCardStr() + " ";
+		}
+		return str;
+	} 
 
 	/**
 	 * comportamento core
