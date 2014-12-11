@@ -138,7 +138,7 @@ public class BasicPlayer implements IPlayerAgent {
 		log("Carte in mano: " + cardsOnHand.size());
 	}
 
-	private void log(String text) {
+	protected void log(String text) {
 		System.out.println(name + "] " + text);
 	}
 

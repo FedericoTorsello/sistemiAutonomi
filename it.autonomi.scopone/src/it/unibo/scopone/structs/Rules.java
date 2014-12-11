@@ -122,6 +122,16 @@ public class Rules {
 		return retPrese;
 	}
 	
+	/**
+	 * @param card
+	 * @return true se card e' il settebello
+	 */
+	public static boolean isSetteBello(ICard card){
+		if(card.getNumber() == 7 && card.getSeed() == Seed.DENARI)
+			return true;
+		return false;
+	}
+	
 	private static void log(String text)
 	{
 		System.out.println("Rules] " + text);

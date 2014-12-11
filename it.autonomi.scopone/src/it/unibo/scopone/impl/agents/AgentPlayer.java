@@ -1,7 +1,10 @@
 package it.unibo.scopone.impl.agents;
 
+import java.util.List;
+
 import it.unibo.scopone.interfaces.ICard;
 import it.unibo.scopone.interfaces.IPlayerAgent;
+import it.unibo.scopone.structs.Rules;
 
 public class AgentPlayer extends BasicPlayer {
 
@@ -45,6 +48,7 @@ public class AgentPlayer extends BasicPlayer {
 			//per ogni carta ragiono
 			float trust = 0.0f;
 			
+			
 		}
 		return trustArray;
 	}
@@ -52,7 +56,24 @@ public class AgentPlayer extends BasicPlayer {
 	//Ragionamenti
 	
 	private float setteBello(ICard card){
-		table.cardsOnTable();
+		//La carta che esamino è il sette bello
+		if(Rules.isSetteBello(card)){
+			if(Rules.existPresa(card, table.cardsOnTable()));
+				return 1.0f;
+		}
+		for(ICard tcard : table.cardsOnTable()){
+			//Il settebello è tra le carte in gioco (sul tavolo)
+			if(Rules.isSetteBello(tcard)){
+				List<List<ICard>> prese = Rules.getPrese(card, table.cardsOnTable());
+				for(List<ICard> presa : prese){
+					//Se almeno una presa contiene il sette bello allora ho più fiducia
+					for(ICard cp : presa){
+						if(Rules.isSetteBello(cp))
+							return 1.0f;
+					}
+				}
+			}
+		}
 		return 0.0f;
 	}
 	
@@ -74,5 +95,12 @@ public class AgentPlayer extends BasicPlayer {
 	private float denari(ICard card){
 		
 		return 0.0f;
+	}
+	
+	private void printTrustForCard(ICard card, float[] trustArray)
+	{
+		String pstr = "";
+		for(int i = 0; i < trustArray.length; i++)
+			log("");
 	}
 }
