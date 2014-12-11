@@ -14,14 +14,29 @@ public class BasicMaths {
 	public static double[] normalizeArray(double[] input, double maxValue)
 	{
 		double[] out = new double[input.length];
+		double max = arraySum(input);
+		double scale = maxValue/max;
+		for(int i = 0; i < input.length; i++)
+			out[i] = scale * input[i];
+		return out;
+	}
+	
+	public static double arrayMax(double[] input)
+	{
 		double max = 0.0;
 		//find max
 		for(int i = 0; i < input.length; i++)
 			if(input[i] > max)
 				max = input[i];
-		double scale = maxValue/max;
+		return max;
+	}
+	
+	public static double arraySum(double[] input)
+	{
+		double sum = 0.0;
+		//find sum
 		for(int i = 0; i < input.length; i++)
-			out[i] = scale * input[i];
-		return out;
+				sum += input[i];
+		return sum;
 	}
 }
