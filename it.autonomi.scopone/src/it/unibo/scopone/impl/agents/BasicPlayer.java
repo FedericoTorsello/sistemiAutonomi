@@ -105,9 +105,11 @@ public class BasicPlayer implements IPlayerAgent {
 	}
 	
 	public void stampaCarteInMano(){
+		String str = "";
 		for (int i = 0; i < cardsOnHand.size(); i++) {
-			System.out.print(cardsOnHand.get(i).getCardStr() + " ");
+			str+=cardsOnHand.get(i).getCardStr() + " ";
 		}
+		log("Carte in mano: \n" + str +"\n---");
 	}
 
 	/**

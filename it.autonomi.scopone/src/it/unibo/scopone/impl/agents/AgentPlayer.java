@@ -1,6 +1,7 @@
 package it.unibo.scopone.impl.agents;
 
 import java.util.List;
+import java.util.Random;
 
 import org.apache.commons.math3.distribution.EnumeratedIntegerDistribution;
 
@@ -8,6 +9,7 @@ import utils.BasicMaths;
 import utils.logging.ILogger;
 import it.unibo.scopone.interfaces.ICard;
 import it.unibo.scopone.interfaces.IPlayerAgent;
+import it.unibo.scopone.structs.Action;
 import it.unibo.scopone.structs.Rules;
 import it.unibo.scopone.structs.Seed;
 
@@ -44,7 +46,9 @@ public class AgentPlayer extends BasicPlayer implements ILogger {
 	void deliberate() {
 		double[] trustArray = evaluateCardTrust();
 		ICard card = getCartWithProbability(trustArray);
-		
+		List<List<ICard>> takings = Rules.getPrese(card, table.cardsOnTable()); 
+		List<ICard> taking = takings.get(new Random().nextInt(takings.size()));
+		intendedAction = new Action(this, card, taking);
 	}
 	
 	ICard getCartWithProbability(double[] trustArray)
