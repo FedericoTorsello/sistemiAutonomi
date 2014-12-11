@@ -22,8 +22,10 @@ public class BasicPlayer implements IPlayerAgent {
 	List<ICard> cardsOnHand;
 	ITable table; // Riferimento al tavolo di gioco
 	List<ICard> deck; // mazzetto
+	
 	Action intendedAction = null;
-
+	int scopeCount = 0;
+	
 	public BasicPlayer(String name, IPlayerAgent nextAgent) {
 		this.name = name;
 		this.nextAgent = nextAgent;
@@ -55,7 +57,7 @@ public class BasicPlayer implements IPlayerAgent {
 		this.cardsOnHand = cards;
 	}
 
-	private void deliberate() {
+	void deliberate() {
 		/*
 		 * Processo deliberativo ignorante su cui fare override
 		 * sceglie semplicemente una carta a caso dal mazzo,
@@ -79,10 +81,12 @@ public class BasicPlayer implements IPlayerAgent {
 				deck.addAll(taking); //Aggiungo le carte al mazzetto
 		} else {
 			log("Impossibile giocare la carta " + card.getCardStr());
+			throw new IllegalStateException("L'agente " + getName() + " sta eseguendo un azione non valida");
 		}
 	}
 
 	private void endTurn() {
+		printStatus(); //TODO to comment
 		log("Passa il turno al prossimo giocatore: " + nextAgent.getName());
 		nextAgent.notifyStartTurn();
 	}
@@ -103,8 +107,10 @@ public class BasicPlayer implements IPlayerAgent {
 		if (intendedAction != null) {
 			playCard(intendedAction.playedCard, intendedAction.taking);
 			endTurn(); // il tuo turno è terminato
-		} else
+		} else{
 			log("deliberation() non ha restituito nessuna azione");
+			throw new IllegalStateException("Impossibile eseguire un azione non deliberata");
+			}
 	}
 	
 	public int evaluateGameScore()
@@ -114,12 +120,20 @@ public class BasicPlayer implements IPlayerAgent {
 		log("Il mio punteggio e'" + score);
 		return score;
 	}
+	
+	private void printStatus()
+	{
+		log("Carte nel mazzetto: " + deck.size());
+		log("Scope: " + scopeCount);
+		log("Carte in mano: " + cardsOnHand.size());
+	}
 
 	private void log(String text) {
 		System.out.println(name + "] " + text);
 	}
 	
-	//Main for testing
+	///////////////////////////////////////////////////////////////////////////////////////
+	//MAIN FOR TESTING
 	public static void main(String[] args)
 	{
 		Deck deck = new Deck();
@@ -150,9 +164,9 @@ public class BasicPlayer implements IPlayerAgent {
 		p3.setCardsOnHand(p3c);
 		p4.setCardsOnHand(p4c);
 		//All setup, deck should be empty
-		System.out.println("Carte sul tavolo: \n");
+		System.out.println("Carte sul tavolo:");
 		table.printTableCards();
 		p1.notifyStartTurn(); //Inizia a giocare, seguiranno tutti gli altri
 	}
-
+	///////////////////////////////////////////////////////////////////////////////////////////
 }

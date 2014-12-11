@@ -27,16 +27,23 @@ public class Rules {
 				log("Non puoi usare la carta " + card.getCardStr() + ", una presa e' possibile.");
 				return false;
 			}
-		}
-		
-		//Butto una carta e faccio una presa
-		boolean presaPossibile = presaPossibile(card, tableCards, presa);
-		if(!presaPossibile){
-			log("Non puoi usare la carta " + card.getCardStr() + " con la presa specificata");
-			return false;
-		}
-		else
 			return true;
+		}
+		else{
+			//Butto una carta e faccio una presa
+			boolean presaPossibile = presaPossibile(card, tableCards, presa);
+			if(!presaPossibile){
+				log("Non puoi usare la carta " + card.getCardStr() + " con la presa specificata");
+				String takingStr = "Taking: [";
+				if(presa.size() != 0)
+					for(ICard c : presa)
+						takingStr += c.getCardStr() + " ";
+				log(takingStr + "]");
+				return false;
+			}
+			else
+				return true;
+		}
 	}
 	
 	
