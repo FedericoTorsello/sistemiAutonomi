@@ -41,16 +41,21 @@ public class Table implements ITable {
 				// Presa effettuata, raccolgono carte dal tavolo
 				cardsOnTable.removeAll(taking);
 			}
+			updateTableView();
 			return true;
 		} else
 			return false;
 	}
+	
+	private void updateTableView(){
+		printTableCards();
+	}
 
 	@Override
 	public void printTableCards() {
-		System.out.println("\n---TABLE CARDS\n");
+		System.out.println("\n---TABLE CARDS---\n");
 		for (ICard c : cardsOnTable)
-			System.out.println(c.getCardStr() + "\n");
-		System.out.println("\n\n");
+			System.out.println(c.getCardStr());
+		System.out.println("------\n");
 	}
 }

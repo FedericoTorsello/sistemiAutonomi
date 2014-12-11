@@ -27,7 +27,7 @@ public class Deck implements IDeck {
 	}
 	
 	@Override
-	public int cardLeft() {
+	public int cardsLeft() {
 		return finalDeck.size();
 	}
 	@Override
