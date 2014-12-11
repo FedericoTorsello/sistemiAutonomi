@@ -1,6 +1,7 @@
 package it.unibo.scopone.impl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 import it.unibo.scopone.interfaces.ICard;
@@ -19,10 +20,9 @@ public class Deck implements IDeck {
 	public Deck() {
 		initialDeck = new ArrayList<Card>();
 		finalDeck = new ArrayList<Card>();
-		generationDeck(Seed.BASTONI);
-		generationDeck(Seed.COPPE);
-		generationDeck(Seed.DENARI);
-		generationDeck(Seed.SPADE);
+		for (Seed s : Seed.values()){
+			generationDeck(s);
+		}
 		shuffle();
 	}
 
@@ -46,9 +46,9 @@ public class Deck implements IDeck {
 			int r = (int) (rnd.nextInt(i + 1));
 			finalDeck.add(r, initialDeck.get(i));
 		}
-//		for (int i = 0; i < NUMCARDMAX; i++) {
-//			System.out.println(finalDeck.get(i).getCardStr());
-//		}
+		for (int i = 0; i < NUMCARDMAX; i++) {
+			System.out.println(finalDeck.get(i).getCardStr());
+		}
 	}
 
 	private static void generationDeck(Seed inputSeed) {
