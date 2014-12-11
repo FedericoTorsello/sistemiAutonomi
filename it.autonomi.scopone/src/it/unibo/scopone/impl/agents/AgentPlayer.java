@@ -49,8 +49,10 @@ public class AgentPlayer extends BasicPlayer {
 		return trustArray;
 	}
 	
+	//Ragionamenti
+	
 	private float setteBello(ICard card){
-		
+		table.cardsOnTable();
 		return 0.0f;
 	}
 	
