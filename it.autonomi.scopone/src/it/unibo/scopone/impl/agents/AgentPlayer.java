@@ -2,6 +2,8 @@ package it.unibo.scopone.impl.agents;
 
 import java.util.List;
 
+import org.apache.commons.math3.distribution.EnumeratedIntegerDistribution;
+
 import utils.BasicMaths;
 import utils.logging.ILogger;
 import it.unibo.scopone.interfaces.ICard;
@@ -41,6 +43,7 @@ public class AgentPlayer extends BasicPlayer implements ILogger {
 	@Override
 	void deliberate() {
 		double[] trustArray = evaluateCardTrust();
+		ICard card = getCartWithProbability(trustArray);
 		
 	}
 	
@@ -48,8 +51,15 @@ public class AgentPlayer extends BasicPlayer implements ILogger {
 	{
 		ICard card = null;
 		//normalizzo il trust array con double da 0.0 a 1.0
-		double[] probArray = BasicMaths.normalizeArray(trustArray, 1.0);
-		
+		double[] probabilities = BasicMaths.normalizeArray(trustArray, 1.0);
+		int[] singletons = new int[cardsOnHand.size()];
+		for(int i = 0; i < cardsOnHand.size(); i++)
+			singletons[i] = i;
+		EnumeratedIntegerDistribution distribution = new EnumeratedIntegerDistribution(singletons, probabilities);
+		int randomIndex = distribution.sample(); //prende la carta in relazione alla probabilità non uniforme
+		card = cardsOnHand.get(randomIndex);
+		log("Scelta la carta " + card.getCardStr() + " con fiducia: " + trustArray[randomIndex] 
+				+" => " + probabilities[randomIndex],LogLevel.SPECIFIC);
 		return card;
 	}
 
@@ -69,6 +79,7 @@ public class AgentPlayer extends BasicPlayer implements ILogger {
 			trust+= denari(card);
 			trust+= scopa(card);
 			trustArray[i] = trust;
+			printTrustForCard(card, trustArray);
 		}
 		return trustArray;
 	}
@@ -103,7 +114,7 @@ public class AgentPlayer extends BasicPlayer implements ILogger {
 		return 0.0f;
 	}
 	
-	private float primiera(ICard card) {
+	private double primiera(ICard card) {
 		if (card.getNumber() == 7) {
 			if (Rules.existPresa(card, table.cardsOnTable())) {
 				return 0.5f;
@@ -128,7 +139,7 @@ public class AgentPlayer extends BasicPlayer implements ILogger {
 		return 0.0f;
 	}
 
-	private float carte(ICard card) {
+	private double carte(ICard card) {
 		if (Rules.existPresa(card, table.cardsOnTable())) {
 			return 0.4f;
 		}
@@ -151,7 +162,7 @@ public class AgentPlayer extends BasicPlayer implements ILogger {
 		return 0.0f;
 	}
 
-	private float denari(ICard card) {
+	private double denari(ICard card) {
 		if (card.getSeed() == Seed.DENARI) {
 			if (Rules.existPresa(card, table.cardsOnTable())) {
 				return 1.0f;
