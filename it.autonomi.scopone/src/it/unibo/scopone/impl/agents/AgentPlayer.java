@@ -84,7 +84,23 @@ public class AgentPlayer extends BasicPlayer {
 	private float primiera(ICard card) {
 		if (card.getNumber() == 7) {
 			if (Rules.existPresa(card, table.cardsOnTable())) {
-				return 1.0f;
+				return 0.5f;
+			}
+		}
+		for (ICard tcard : table.cardsOnTable()) {
+			// c'e' un 7 tra le carte in gioco sul tavolo
+			if (card.getNumber() == 7) {
+				List<List<ICard>> prese = Rules.getPrese(card,
+						table.cardsOnTable());
+				for (List<ICard> presa : prese) {
+					// Se almeno una presa contiene il sette bello allora ho pi�
+					// fiducia
+					for (ICard cp : presa) {
+						if (Rules.isSetteBello(cp))
+							if (Rules.existPresa(card, table.cardsOnTable()))
+								return 0.5f;
+					}
+				}
 			}
 		}
 		return 0.0f;
@@ -92,7 +108,23 @@ public class AgentPlayer extends BasicPlayer {
 
 	private float carte(ICard card) {
 		if (Rules.existPresa(card, table.cardsOnTable())) {
-			return 1.0f;
+			return 0.4f;
+		}
+		for (ICard tcard : table.cardsOnTable()) {
+			// c'e' un 7 tra le carte in gioco sul tavolo
+			if (Rules.existPresa(card, table.cardsOnTable())) {
+				List<List<ICard>> prese = Rules.getPrese(card,
+						table.cardsOnTable());
+				for (List<ICard> presa : prese) {
+					// Se almeno una presa contiene il sette bello allora ho pi�
+					// fiducia
+					for (ICard cp : presa) {
+						if (Rules.isSetteBello(cp))
+							if (Rules.existPresa(card, table.cardsOnTable()))
+								return 0.4f;
+					}
+				}
+			}
 		}
 		return 0.0f;
 	}
@@ -101,6 +133,22 @@ public class AgentPlayer extends BasicPlayer {
 		if (card.getSeed() == Seed.DENARI) {
 			if (Rules.existPresa(card, table.cardsOnTable())) {
 				return 1.0f;
+			}
+		}
+		for (ICard tcard : table.cardsOnTable()) {
+			// c'e' un denaro tra le carte in gioco sul tavolo
+			if (Rules.existPresa(card, table.cardsOnTable())) {
+				List<List<ICard>> prese = Rules.getPrese(card,
+						table.cardsOnTable());
+				for (List<ICard> presa : prese) {
+					// se c'e' un denaro tra le carte in gioco sul tavolo
+					// ho piu' fiducia
+					for (ICard cp : presa) {
+						if (Rules.isSetteBello(cp))
+							if (Rules.existPresa(card, table.cardsOnTable()))
+								return 0.4f;
+					}
+				}
 			}
 		}
 		return 0.0f;
