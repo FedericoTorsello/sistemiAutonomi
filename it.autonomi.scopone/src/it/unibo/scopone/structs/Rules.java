@@ -6,6 +6,10 @@ import utils.Lists;
 import it.unibo.scopone.interfaces.*;
 
 public class Rules {
+	//---
+	//STRUCT:
+	//	presa = contiene la carta lasciata sul tavolo
+	//---
 	
 	/**
 	 * se butto una carta e lo stesso valore e' sul tavolo, la devo prendere.
