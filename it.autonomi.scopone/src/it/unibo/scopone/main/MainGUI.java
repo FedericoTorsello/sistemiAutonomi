@@ -1,4 +1,4 @@
-package it.autonomi.scopone.main;
+package it.unibo.scopone.main;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;

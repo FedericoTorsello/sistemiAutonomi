@@ -15,7 +15,7 @@ public class Deck implements IDeck {
 	static Random random = new Random();
 	static ArrayList<Card> initialDeck;
 	static ArrayList<Card> finalDeck;
-	
+
 	public Deck() {
 		initialDeck = new ArrayList<Card>();
 		finalDeck = new ArrayList<Card>();
@@ -25,31 +25,34 @@ public class Deck implements IDeck {
 		generationDeck(Seed.SPADE);
 		shuffle();
 	}
-	
+
 	@Override
 	public int cardsLeft() {
 		return finalDeck.size();
 	}
+
 	@Override
 	public ICard dealCard() {
-		if(finalDeck.size() == 0)
+		if (finalDeck.size() == 0)
 			throw new IllegalStateException("No more card in the deck");
 		ICard card = finalDeck.remove(0);
 		return card;
 	}
+
 	@Override
 	public void shuffle() {
+		Random rnd = new Random();
 		for (int i = 0; i < NUMCARDMAX; i++) {
-			int r = (int) (Math.random() * i);
+			int r = (int) (rnd.nextInt(i + 1));
 			finalDeck.add(r, initialDeck.get(i));
 		}
-		//for (int i = 0; i < NUMCARDMAX; i++) {
-		//	System.out.println(finalDeck.get(i).getCardStr());
-		//}
+//		for (int i = 0; i < NUMCARDMAX; i++) {
+//			System.out.println(finalDeck.get(i).getCardStr());
+//		}
 	}
-	
+
 	private static void generationDeck(Seed inputSeed) {
-		for (int i = 1; i <= NUMCARDMAX/numSeed; i++) {
+		for (int i = 1; i <= NUMCARDMAX / numSeed; i++) {
 			card = new Card(i, inputSeed);
 			initialDeck.add(card);
 		}
