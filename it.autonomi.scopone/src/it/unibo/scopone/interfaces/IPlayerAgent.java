@@ -25,7 +25,7 @@ public interface IPlayerAgent {
 	 * Processo deliberativo che porta l'agente a prendere una decisione in base
 	 * al contesto
 	 */
-	void deliberate();
+	//private void deliberate();
 
 	/**
 	 * Gioca la carta scelta
@@ -34,10 +34,10 @@ public interface IPlayerAgent {
 	 * @param taking = presa che si intende effettuare, lista vuota se non si
 	 *            prende nulla dal tavolo.
 	 */
-	void playCard(ICard card, List<ICard> taking);
+	//private void playCard(ICard card, List<ICard> taking);
 
 	/**
 	 * Comunica al successivo giocatore la fine del proprio turno.
 	 */
-	void endTurn();
+	//private void endTurn();
 }

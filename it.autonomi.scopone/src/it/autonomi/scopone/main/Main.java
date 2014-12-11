@@ -58,7 +58,7 @@ public class Main {
 	}
 
 	public static void generationDeck(Seed inputSeed) {
-		for (int i = 1; i <= 10; i++) {
+		for (int i = 1; i <= NUMCARDMAX/numSeed; i++) {
 			card = new Card(i, inputSeed);
 			initialDeck.add(card);
 		}
