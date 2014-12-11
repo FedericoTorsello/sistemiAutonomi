@@ -46,9 +46,9 @@ public class Deck implements IDeck {
 			int r = (int) (rnd.nextInt(i + 1));
 			finalDeck.add(r, initialDeck.get(i));
 		}
-		for (int i = 0; i < NUMCARDMAX; i++) {
-			System.out.println(finalDeck.get(i).getCardStr());
-		}
+//		for (int i = 0; i < NUMCARDMAX; i++) {
+//			System.out.println(finalDeck.get(i).getCardStr());
+//		}
 	}
 
 	private static void generationDeck(Seed inputSeed) {
